@@ -31,6 +31,7 @@ public class Test extends Application{
     public void start(Stage stage) {
 		// Setup stage, root node, scene, and canvas
         stage.setTitle("Smart Car");
+        stage.setResizable(false);
         Group root = new Group();
         Scene scene = new Scene(root);
         stage.setScene(scene);
