@@ -72,26 +72,11 @@ public class Test extends Application{
         
         Sprite road1 = new Sprite("images\\backgrounds\\road.png", 0, -HEIGHT, true);
         Sprite road2 = new Sprite("images\\backgrounds\\road.png", 0, 0, true);
+        
                 
         new AnimationTimer() {
         	public void handle(long currentNanoTime) {
-        	    //gc.setFill(Color.WHITE);
-        	    //gc.fillRect(0, 0, WIDTH, HEIGHT);
-        		
-        		// Statements for drawing road loop
-        		if(road1.getYPosition() >= HEIGHT) {
-        			road1.setPosition(0, -HEIGHT);
-        		}
-        		if(road2.getYPosition() >= HEIGHT) {
-        			road2.setPosition(0, -HEIGHT);
-        		}
-        		
-        		road1.setPosition(0, road1.getYPosition() + 5);
-        		road2.setPosition(0, road2.getYPosition() + 5);
-
-        		
-        		gc.drawImage(road1.getImage(), road1.getXPosition(), road1.getYPosition());
-        		gc.drawImage(road2.getImage(), road2.getXPosition(), road2.getYPosition());
+        		int roadSpeed = 5;
         		
         		// set car movement direction based off of input received.
         		byte xDirection = 0, yDirection = 0;
@@ -105,15 +90,36 @@ public class Test extends Application{
         		
         		if(input.contains("W")) {
         			yDirection--;
+        			roadSpeed += 1;
         		}
         		if (input.contains("S")) {
         			yDirection++;
+        			roadSpeed -= 1;
         		}
+        		
+        		
+        		
+        	    //gc.setFill(Color.WHITE);
+        	    //gc.fillRect(0, 0, WIDTH, HEIGHT);
+        		
+        		// Statements for drawing road loop
+        		if(road1.getYPosition() >= HEIGHT) {
+        			road1.setPosition(0, -HEIGHT);
+        		}
+        		if(road2.getYPosition() >= HEIGHT) {
+        			road2.setPosition(0, -HEIGHT);
+        		}
+        		
+        		road1.setPosition(0, road1.getYPosition() + roadSpeed);
+        		road2.setPosition(0, road2.getYPosition() + roadSpeed);
+
+        		
+        		gc.drawImage(road1.getImage(), road1.getXPosition(), road1.getYPosition());
+        		gc.drawImage(road2.getImage(), road2.getXPosition(), road2.getYPosition());
         		
         		// Set and draw car position
         		car.setPosition(car.getXPosition() + (xDirection * carSpeed), car.getYPosition() + (yDirection * carSpeed));
         		gc.drawImage(car.getImage(), car.getXPosition(), car.getYPosition());
-
         	}
         }.start();
         
