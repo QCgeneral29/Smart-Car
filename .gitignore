@@ -1,3 +1,6 @@
+# To prevent platform issues
+.classpath
+
 .metadata
 bin/
 tmp/
