@@ -1,6 +1,9 @@
 # To prevent platform issues
 .classpath
 
+# Dont need non-source things
+.class
+
 .metadata
 bin/
 tmp/
