@@ -1,10 +1,12 @@
-import java.util.Random; 
+import java.util.Random;
+
+import javafx.scene.canvas.GraphicsContext; 
 
 public class Prop extends Sprite {
 	private int speed;
 	
 	public Prop(String img, Boolean isVisible, int speed) {
-		super(img, randInt(400,100), -50, isVisible);
+		super(img, randInt(400,100), -50);
 		this.speed = speed;
 	}
 	

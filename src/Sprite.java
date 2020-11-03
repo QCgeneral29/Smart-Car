@@ -1,4 +1,4 @@
-//import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Sprite {
@@ -6,19 +6,16 @@ public class Sprite {
 	private int xpos = 0;
 	private int ypos = 0;
 	private Boolean isVisable = true;
-	//private GraphicsContext gc;
 	
-	public Sprite(String img, int xpos, int ypos, Boolean isVisable) {
-		//this.gc = gc;
+	public Sprite(String img, int xpos, int ypos) {
 		this.image = new Image(img);
 		this.xpos = xpos;
 		this.ypos = ypos;
-		this.isVisable = isVisable;
 	}
 	
-//	public void draw() {
-//		gc.drawImage(image, xpos, ypos);
-//	}
+	public void draw(GraphicsContext gc) {
+		gc.drawImage(image, xpos, ypos);
+	}
 	
 	public void setPosition(int xpos, int ypos) {
 		this.xpos = xpos;
