@@ -33,11 +33,11 @@ public class Test extends Application{
         // Sets GraphicsContext to 2D. We will use gc to draw images/text
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        Sprite car = new Sprite("images/cars/pink_car.png", WIDTH / 2, HEIGHT / 2, true);
+        Sprite car = new Sprite("images/cars/pink_car.png", WIDTH / 2, HEIGHT / 2);
         int carSpeed = 3;
         
-        Sprite road1 = new Sprite("images/backgrounds/road.png", 0, -HEIGHT, true);
-        Sprite road2 = new Sprite("images/backgrounds/road.png", 0, 0, true);
+        Sprite road1 = new Sprite("images/backgrounds/road.png", 0, -HEIGHT);
+        Sprite road2 = new Sprite("images/backgrounds/road.png", 0, 0);
         
         Prop prop1 = new Prop("/images/cars/blue_car.png", true, 2);
         Prop prop2 = new Prop("/images/cars/blue_car.png", true, 3);
