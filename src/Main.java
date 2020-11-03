@@ -1,5 +1,5 @@
 /*	The Main class for the Smart-Car project.
- * 
+ *  Made by Landen Love, Mike Bui, Jay Ng
  *  Might need VM argument:
  *  --module-path "javafx-sdk-11.0.2\lib" --add-modules javafx.controls
  */
