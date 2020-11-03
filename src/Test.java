@@ -1,25 +1,14 @@
 // Test.java is a prototype for the smart cars assignment. Much of this
 // code can be used in the main game loop.
 
-import java.util.ArrayList;
-
 // TODO clean up imports
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Test extends Application{
 	
@@ -39,30 +28,7 @@ public class Test extends Application{
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
         
-        ArrayList<String> input = new ArrayList<String>();
-        
-        // Event handling for key presses
-        scene.setOnKeyPressed(
-        		new EventHandler<KeyEvent>() {
-        			public void handle(KeyEvent e) {
-        				String code = e.getCode().toString();
-        				
-        				if (!input.contains(code)) {
-        					input.add(code);
-        				}
-        			}
-        		}
-        		);
-        
-        // Event handling for key releases
-        scene.setOnKeyReleased(
-        		new EventHandler<KeyEvent>() {
-        			public void handle(KeyEvent e) {
-        				String code = e.getCode().toString();
-        				input.remove(code);
-        			}
-        		}
-        		);
+        InputHandler input = new InputHandler(scene);
         
         // Sets GraphicsContext to 2D. We will use gc to draw images/text
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -117,17 +83,17 @@ public class Test extends Application{
         		// set car movement direction based off of input received.
         		byte xDirection = 0, yDirection = 0;
         		
-        		if(input.contains("A")) {
+        		if(input.isKeyPressed("A")) {
         			xDirection--;
         		}
-        		if (input.contains("D")) {
+        		if (input.isKeyPressed("D")) {
         			xDirection++;
         		}
         		
-        		if(input.contains("W")) {
+        		if(input.isKeyPressed("W")) {
         			yDirection--;
         		}
-        		if (input.contains("S")) {
+        		if (input.isKeyPressed("S")) {
         			yDirection++;
         		}
         		
