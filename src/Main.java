@@ -39,10 +39,33 @@ public class Main extends Application{
         GraphicsContext gc = canvas.getGraphicsContext2D();
                 
 		Background bg = new Background("images/backgrounds/road.png", 5, HEIGHT);
+		
+		InputHandler input = new InputHandler(scene);
+		Player player = new Player("images/cars/pink_car.png",  WIDTH / 2, HEIGHT / 2);
         
         new AnimationTimer() {
         	public void handle(long currentNanoTime) {
+        		// Controls background loop
         		bg.draw(gc);
+        		
+        		// Player controls
+        		byte xDirection = 0, yDirection = 0;
+        		if(input.isKeyPressed("A")) {
+        			xDirection--;
+        		}
+        		if (input.isKeyPressed("D")) {
+        			xDirection++;
+        		}
+        		
+        		if(input.isKeyPressed("W")) {
+        			yDirection--;
+        		}
+        		if (input.isKeyPressed("S")) {
+        			yDirection++;
+        		}
+        		
+        		// draw and move player
+        		player.draw(gc, xDirection, yDirection);
         	}
         }.start();
         
