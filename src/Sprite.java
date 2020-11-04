@@ -1,3 +1,4 @@
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -40,5 +41,13 @@ public class Sprite {
 	
 	public Image getImage() {
 		return this.image;
+	}
+	
+	public Rectangle2D getBoundary() {
+		return new Rectangle2D(xpos, ypos, image.getWidth(), image.getHeight());
+	}
+	
+	public boolean intersects(Sprite object) {
+		return this.getBoundary().intersects(object.getBoundary());
 	}
 }

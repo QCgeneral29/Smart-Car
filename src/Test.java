@@ -2,6 +2,8 @@
 // code can be used in the main game loop.
 
 // TODO clean up imports
+import java.util.ArrayList;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -43,6 +45,10 @@ public class Test extends Application{
         Prop prop2 = new Prop("/images/cars/blue_car.png", true, 3);
         Prop prop3 = new Prop("/images/cars/blue_car.png", true, 4);
         
+        ArrayList<Prop> props = new ArrayList<Prop>();
+        props.add(prop1);
+        props.add(prop2);
+        props.add(prop3);
               
         new AnimationTimer() {
         	public void handle(long currentNanoTime) {
@@ -101,6 +107,9 @@ public class Test extends Application{
         		car.setPosition(car.getXPosition() + (xDirection * carSpeed), car.getYPosition() + (yDirection * carSpeed));
         		gc.drawImage(car.getImage(), car.getXPosition(), car.getYPosition());
 
+        		for(int i = 0; i < props.size(); i++) {
+        			if(car.intersects(props.get(i))) System.out.println("Car hit!");
+        		}
         	}
         }.start();
         
