@@ -12,8 +12,8 @@ public class Sprite {
 	 * General purpose class used to draw images in Smart-Car. Includes helper methods for manipulating
 	 * sprite attributes.
 	 * @param img String that is used to find image file in project folder. EX: images/cars/pink_car.png
-	 * @param xpos Starting x position for Sprite
-	 * @param ypos Starting y position for Sprite
+	 * @param xpos Starting x position for Sprite.
+	 * @param ypos Starting y position for Sprite.
 	 */
 	public Sprite(String img, int xpos, int ypos) {
 		this.image = new Image(img);

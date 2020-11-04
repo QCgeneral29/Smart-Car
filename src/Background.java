@@ -19,7 +19,7 @@ public class Background {
 	}
 	
 	/**
-	 * Moves the background times the current speed then draws to the given scene object.
+	 * Moves the background times the current speed then draws to the given GraphicsContext object.
 	 * @param gc
 	 */
 	public void draw(GraphicsContext gc) {

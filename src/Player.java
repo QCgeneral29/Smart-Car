@@ -25,8 +25,16 @@ public class Player extends Sprite{
 		this.health = health;
 	}
 	
+	public int getHealth() {
+		return health;
+	}
+	
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+	
+	public int getSpeed() {
+		return speed;
 	}
 	
 }

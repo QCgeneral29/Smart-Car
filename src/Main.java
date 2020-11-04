@@ -1,11 +1,12 @@
 /*	The Main class for the Smart-Car project.
  *  
- *  Made by Landen Love, Mike Bui, Jay Ng
- *  hiiiiiiiii
+ *  Made by Landen Love, Mike Bui, Jay Nguyen
  *  
  *  Might need VM argument:
  *  --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls
  */
+
+import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -42,6 +43,9 @@ public class Main extends Application{
 		
 		InputHandler input = new InputHandler(scene);
 		Player player = new Player("images/cars/pink_car.png",  WIDTH / 2, HEIGHT / 2);
+		
+		// This array list should be used for adding new sprites to the scene. 
+		ArrayList<Sprite> sprites = new ArrayList<Sprite>();
         
         new AnimationTimer() {
         	public void handle(long currentNanoTime) {
@@ -50,17 +54,17 @@ public class Main extends Application{
         		
         		// Player controls
         		byte xDirection = 0, yDirection = 0;
-        		if(input.isKeyPressed("A")) {
+        		if(input.isKeyPressed("A") && player.getXPosition() >= 85) {
         			xDirection--;
         		}
-        		if (input.isKeyPressed("D")) {
+        		if (input.isKeyPressed("D") && player.getXPosition() <= 415) {
         			xDirection++;
         		}
         		
-        		if(input.isKeyPressed("W")) {
+        		if(input.isKeyPressed("W") && player.getYPosition() >= 0) {
         			yDirection--;
         		}
-        		if (input.isKeyPressed("S")) {
+        		if (input.isKeyPressed("S") && player.getYPosition() <= 470) {
         			yDirection++;
         		}
         		
