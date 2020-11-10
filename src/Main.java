@@ -9,18 +9,19 @@
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application{
-
-	public static void main(String[] args) {
-		launch();
-	}
 	
 	final private int WIDTH = 512;
 	final private int HEIGHT = 512;
@@ -46,34 +47,50 @@ public class Main extends Application{
 		
 		// This array list should be used for adding new sprites to the scene. 
 		ArrayList<Sprite> sprites = new ArrayList<Sprite>();
-        
-        new AnimationTimer() {
-        	public void handle(long currentNanoTime) {
-        		// Controls background loop
-        		bg.draw(gc);
-        		
-        		// Player controls
-        		byte xDirection = 0, yDirection = 0;
-        		if(input.isKeyPressed("A") && player.getXPosition() >= 85) {
-        			xDirection--;
-        		}
-        		if (input.isKeyPressed("D") && player.getXPosition() <= 415) {
-        			xDirection++;
-        		}
-        		
-        		if(input.isKeyPressed("W") && player.getYPosition() >= 0) {
-        			yDirection--;
-        		}
-        		if (input.isKeyPressed("S") && player.getYPosition() <= 470) {
-        			yDirection++;
-        		}
-        		
-        		// draw and move player
-        		player.draw(gc, xDirection, yDirection);
-        	}
-        }.start();
+		
+		// We use a Timeline to run the main gameLoop. We set it to run indefinitely 
+		Timeline gameLoop = new Timeline();
+		gameLoop.setCycleCount(Timeline.INDEFINITE);
+		
+		
+        KeyFrame kf = new KeyFrame(
+                Duration.seconds(0.017), // 60 FPS
+                new EventHandler<ActionEvent>()
+                {
+                    public void handle(ActionEvent ae)
+                    {
+		        		// Controls background loop
+		        		bg.draw(gc);
+		        		
+		        		// Player controls
+		        		byte xDirection = 0, yDirection = 0;
+		        		if(input.isKeyPressed("A") && player.getXPosition() >= 85) {
+		        			xDirection--;
+		        		}
+		        		if (input.isKeyPressed("D") && player.getXPosition() <= 415) {
+		        			xDirection++;
+		        		}
+		        		
+		        		if(input.isKeyPressed("W") && player.getYPosition() >= 0) {
+		        			yDirection--;
+		        		}
+		        		if (input.isKeyPressed("S") && player.getYPosition() <= 470) {
+		        			yDirection++;
+		        		}
+		        		
+		        		// draw and move player
+		        		player.draw(gc, xDirection, yDirection);
+                    }
+                });
+
+        gameLoop.getKeyFrames().add(kf);
+        gameLoop.play();
         
         stage.show();
+	}
+	
+	public static void main(String[] args) {
+		launch();
 	}
 
 }
