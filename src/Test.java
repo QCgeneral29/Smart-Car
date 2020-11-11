@@ -45,6 +45,8 @@ public class Test extends Application{
         Prop prop2 = new Prop("/images/cars/blue_car.png", true, 3);
         Prop prop3 = new Prop("/images/cars/blue_car.png", true, 4);
         
+        Enemy enemy = new Enemy("images/cars/blue_car.png", true, 1);
+        
         ArrayList<Prop> props = new ArrayList<Prop>();
         props.add(prop1);
         props.add(prop2);
@@ -74,6 +76,8 @@ public class Test extends Application{
         		gc.drawImage(prop1.getImage(), prop1.getXPosition(), prop1.getYPosition());
         		gc.drawImage(prop2.getImage(), prop2.getXPosition(), prop2.getYPosition());
         		gc.drawImage(prop3.getImage(), prop3.getXPosition(), prop3.getYPosition());
+        		
+        		gc.drawImage(enemy.getImage(), enemy.getXPosition(), enemy.getYPosition());
         		
         		prop1.movingDown();
         		prop2.movingDown();
@@ -106,6 +110,8 @@ public class Test extends Application{
         		// Set and draw car position
         		car.setPosition(car.getXPosition() + (xDirection * carSpeed), car.getYPosition() + (yDirection * carSpeed));
         		gc.drawImage(car.getImage(), car.getXPosition(), car.getYPosition());
+        		
+        		enemy.attack(car, gc);
 
         		for(int i = 0; i < props.size(); i++) {
         			if(car.intersects(props.get(i))) System.out.println("Car hit!");
