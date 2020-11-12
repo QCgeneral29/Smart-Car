@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class Enemy extends Sprite{
 	private int speed;
+	private boolean retreat = false;
 	
 	public Enemy(String img, int xpos, int ypos, int speed) {
 		super(img, xpos, ypos);
@@ -17,28 +18,44 @@ public class Enemy extends Sprite{
 	}
 	
 	public void attack(Sprite player, GraphicsContext gc) {
-		int enemyX = super.getXPosition();
-		int enemyY = super.getYPosition();
-		
-		int playerX = player.getXPosition();
-		int playerY = player.getYPosition();
-		
-		if (enemyX > playerX)
-			enemyX = enemyX - this.speed;
-		else if (enemyX < playerX)
-			enemyX = enemyX + this.speed;
+		if(retreat) {
+			super.setPosition(super.getXPosition(), super.getYPosition() + speed);
 			
-		if (enemyY > playerY)
-			enemyY = enemyY - this.speed;
-		else if (enemyY < playerY)
-			enemyY = enemyY + this.speed;
+			if(super.getYPosition() > 512) {
+				setRetreat(false);
+				this.setRandomLocation();
+			}
+		}else {
+			if(!this.intersects(player)) {
+				int enemyX = super.getXPosition();
+				int enemyY = super.getYPosition();
+				
+				int playerX = player.getXPosition();
+				int playerY = player.getYPosition();
+				
+				if (enemyX > playerX)
+					enemyX = enemyX - this.speed;
+				else if (enemyX < playerX)
+					enemyX = enemyX + this.speed;
+					
+				if (enemyY > playerY)
+					enemyY = enemyY - this.speed;
+				else if (enemyY < playerY)
+					enemyY = enemyY + this.speed;
+				
+				super.setPosition(enemyX, enemyY);
+		}
+		}
 		
-		super.setPosition(enemyX, enemyY);
 		super.draw(gc);
 	}
 	
 	public void setRandomLocation() {
 		this.setPosition(randInt(400,100), 512);
+	}
+	
+	public void setRetreat(boolean retreat) {
+		this.retreat = retreat;
 	}
 
 }
