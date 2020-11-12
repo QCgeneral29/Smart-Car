@@ -45,7 +45,7 @@ public class Test extends Application{
         Prop prop2 = new Prop("/images/cars/blue_car.png", true, 3);
         Prop prop3 = new Prop("/images/cars/blue_car.png", true, 4);
         
-        Enemy enemy = new Enemy("images/cars/blue_car.png", true, 1);
+        Enemy enemy = new Enemy("images/cars/grey_car.png", true, 1);
         
         ArrayList<Prop> props = new ArrayList<Prop>();
         props.add(prop1);
