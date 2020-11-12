@@ -25,7 +25,7 @@ public class Main extends Application{
 	
 	final private int WIDTH = 512;
 	final private int HEIGHT = 512;
-
+	
 	@Override
 	public void start(Stage stage) throws Exception {
 		// Setup window and scene
@@ -47,36 +47,59 @@ public class Main extends Application{
 		
 		// This array list should be used for adding new sprites to the scene. 
 		ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+		// This array list should be used for Sprites with collision.
+		ArrayList<Sprite> colliders = new ArrayList<Sprite>();
 		
 		// We use a Timeline to run the main gameLoop. We set it to run indefinitely 
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		
+		Enemy enemycar = new Enemy("images/cars/blue_car.png", -50, -50, 1);
+		colliders.add(enemycar);
+		enemycar.setRandomLocation();
 		
+		/**
+		 * This is the main game loop. Everything within handle() is called every frame.
+		 * The game loop runs at 60 frames per second. This is set by Duration.seconds.
+		 */
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.017), // 60 FPS
                 new EventHandler<ActionEvent>()
                 {
                     public void handle(ActionEvent ae)
                     {
+                    	// Detect collision with player
+                    	for(int i = 0; i < colliders.size(); i++) {
+                    		if(player.intersects(colliders.get(i))) {
+                    			switch(colliders.get(i).getClass().getName()) {
+                    				case "Enemy":
+                    					player.hack(3000);
+                    					break;
+                    			}
+                    		}
+                    	}
+                    	
 		        		// Controls background loop
 		        		bg.draw(gc);
 		        		
 		        		// Player controls
 		        		byte xDirection = 0, yDirection = 0;
-		        		if(input.isKeyPressed("A") && player.getXPosition() >= 85) {
+		        		if(input.isKeyPressed("A")) {
 		        			xDirection--;
 		        		}
-		        		if (input.isKeyPressed("D") && player.getXPosition() <= 415) {
+		        		if (input.isKeyPressed("D")) {
 		        			xDirection++;
 		        		}
 		        		
-		        		if(input.isKeyPressed("W") && player.getYPosition() >= 0) {
+		        		if(input.isKeyPressed("W")) {
 		        			yDirection--;
 		        		}
-		        		if (input.isKeyPressed("S") && player.getYPosition() <= 470) {
+		        		if (input.isKeyPressed("S")) {
 		        			yDirection++;
 		        		}
+		        		
+		        		// draw and move enemy
+		        		enemycar.attack(player, gc);
 		        		
 		        		// draw and move player
 		        		player.draw(gc, xDirection, yDirection);
