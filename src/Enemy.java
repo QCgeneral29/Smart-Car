@@ -5,8 +5,8 @@ import javafx.scene.canvas.GraphicsContext;
 public class Enemy extends Sprite{
 	private int speed;
 	
-	public Enemy(String img, Boolean isVisible, int speed) {
-		super(img, randInt(400,100), 500);
+	public Enemy(String img, int xpos, int ypos, int speed) {
+		super(img, xpos, ypos);
 		this.speed = speed;
 	}
 	
@@ -35,6 +35,10 @@ public class Enemy extends Sprite{
 		
 		super.setPosition(enemyX, enemyY);
 		super.draw(gc);
+	}
+	
+	public void setRandomLocation() {
+		this.setPosition(randInt(400,100), 512);
 	}
 
 }
