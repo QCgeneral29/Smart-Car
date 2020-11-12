@@ -74,6 +74,8 @@ public class Main extends Application{
                     			switch(colliders.get(i).getClass().getName()) {
                     				case "Enemy":
                     					player.hack(3000);
+                    					Enemy hacker = (Enemy) colliders.get(i);
+                    					hacker.setRetreat(true);
                     					break;
                     			}
                     		}
