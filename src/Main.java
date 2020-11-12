@@ -58,6 +58,10 @@ public class Main extends Application{
 		colliders.add(enemycar);
 		enemycar.setRandomLocation();
 		
+		/**
+		 * This is the main game loop. Everything within handle() is called every frame.
+		 * The game loop runs at 60 frames per second. This is set by Duration.seconds.
+		 */
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.017), // 60 FPS
                 new EventHandler<ActionEvent>()
@@ -69,10 +73,7 @@ public class Main extends Application{
                     		if(player.intersects(colliders.get(i))) {
                     			switch(colliders.get(i).getClass().getName()) {
                     				case "Enemy":
-                    					System.out.println("Player Hit!");
-                    					//take damage
-                    					break;
-                    				case "Something else":
+                    					player.hack(3000);
                     					break;
                     			}
                     		}
