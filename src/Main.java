@@ -110,7 +110,7 @@ public class Main extends Application{
                     					hacker.setRetreat(true);
                     					break;
                     				case "Prop":
-                    					player.attackPlayer(50);
+                    					player.attackPlayer(10);
                     					break;
                     			}
                     		}
