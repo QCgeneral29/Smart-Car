@@ -56,12 +56,15 @@ public class Main extends Application{
 		ArrayList<Sprite> colliders = new ArrayList<Sprite>();
 		
 		// This is the driving sound we run indefinitely
-		URL drivingSource = getClass().getResource("sounds/driving.mp3");
-		AudioClip drivingSound = new AudioClip(drivingSource.toString());
-		drivingSound.setCycleCount(AudioClip.INDEFINITE);
-		drivingSound.play();
+		URL playingSource = getClass().getResource("sounds/playing.mp3");
+		AudioClip playingSound = new AudioClip(playingSource.toString());
+		playingSound.setCycleCount(AudioClip.INDEFINITE);
+		playingSound.play();
 		
-
+		URL speedingSource = getClass().getResource("sounds/speed_up.mp3");
+		AudioClip speedingSound = new AudioClip(speedingSource.toString());
+		speedingSound.setRate(1.0);
+		
 		URL stopSource = getClass().getResource("sounds/stop.mp3");
 		AudioClip stopSound = new AudioClip(stopSource.toString());
 		stopSound.setRate(1.0);
@@ -106,9 +109,9 @@ public class Main extends Application{
                     		}
                     	}
                     	
-                    	// check if Player's driving for sound
-                    	if (drivingSound.isPlaying() == false)
-                    		drivingSound.play();
+                    	// check if Player is driving for sound
+                    	if (!playingSound.isPlaying())
+                    		playingSound.play();
                     	
 		        		// Controls background loop
                     	// DO NOT DRAW ANY IMAGES ABOVE THE BACKGROUND. THEY WILL NOT
@@ -131,11 +134,12 @@ public class Main extends Application{
 		        		
 		        		if(input.isKeyPressed("W")) {
 		        			yDirection--;
+		        			if (!speedingSound.isPlaying())
+		        				speedingSound.play();
 		        		}
 		        		if (input.isKeyPressed("S")) {
 		        			yDirection++;
-		        			drivingSound.stop();
-		        			if (stopSound.isPlaying() == false)
+		        			if (!stopSound.isPlaying())
 		        				stopSound.play();
 		        		}
 		        		
