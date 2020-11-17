@@ -43,10 +43,12 @@ public class Main extends Application{
         // This is passed to everything we want to draw on screen ex: draw(ex)
         GraphicsContext gc = canvas.getGraphicsContext2D();
                 
-		Background bg = new Background("images/backgrounds/road.png", 5, HEIGHT);
+        // Setup the looping background
+		Background bg = new Background("images/backgrounds/road.png", 7, HEIGHT);
 		
+		// Player input and player character
 		InputHandler input = new InputHandler(scene);
-		Player player = new Player("images/cars/pink_car.png",  WIDTH / 2, HEIGHT / 2);
+		Player player = new Player("images/cars/blue_car.png",  WIDTH / 2, HEIGHT / 2);
 		
 		// This array list should be used for adding new sprites to the scene. 
 		ArrayList<Sprite> sprites = new ArrayList<Sprite>();
@@ -68,9 +70,18 @@ public class Main extends Application{
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		
-		Enemy enemycar = new Enemy("images/cars/blue_car.png", -50, -50, 1);
+		// Enemy hacker car
+		Enemy enemycar = new Enemy("images/cars/hacker_car.png", -50, -50, 1);
 		colliders.add(enemycar);
 		enemycar.setRandomLocation();
+		
+		// Prop cars
+		Prop prop1 = new Prop("images/cars/pink_car.png", 3, 600);
+		Prop prop2 = new Prop("images/cars/green_truck.png", 3, 800);
+		
+		// Add all sprites to array
+		sprites.add(prop1);
+		sprites.add(prop2);
 		
 		/**
 		 * This is the main game loop. Everything within handle() is called every frame.
@@ -100,7 +111,14 @@ public class Main extends Application{
                     		drivingSound.play();
                     	
 		        		// Controls background loop
+                    	// DO NOT DRAW ANY IMAGES ABOVE THE BACKGROUND. THEY WILL NOT
+                    	// SHOW UP ON SCREEN
 		        		bg.draw(gc);
+		        		
+		        		// Draw all sprites.
+		        		for(int i = 0; i < sprites.size(); i++) {
+                    		sprites.get(i).draw(gc);
+                    	}
 		        		
 		        		// Player controls
 		        		byte xDirection = 0, yDirection = 0;
@@ -134,6 +152,8 @@ public class Main extends Application{
         gameLoop.play();
         
         stage.show();
+        
+        
 	}
 	
 	public static void main(String[] args) {

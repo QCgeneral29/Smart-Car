@@ -4,16 +4,19 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class Prop extends Sprite {
 	private int speed;
+	private final int HEIGHT;
 	
-	public Prop(String img, Boolean isVisible, int speed) {
-		super(img, randInt(400,100), -50);
+	public Prop(String img, int speed, int HEIGHT) {
+		super(img, randPosition(), -50);
 		this.speed = speed;
+		this.HEIGHT = HEIGHT;
 	}
 	
-	public static int randInt(int max, int min) {
+	public static int randPosition() {
 		Random rand = new Random();
-		int randomNum = rand.nextInt((max - min) + 1) + min;
-		return randomNum;
+		int[] positions = new int[] {127, 205, 283, 361};
+		
+		return positions[rand.nextInt(4)];
 	}
 	
 	public void movingDown() {
@@ -21,8 +24,16 @@ public class Prop extends Sprite {
 	}
 	
 	public void returnUp() {
-		super.setPosition(randInt(400,100), -50);
+		super.setPosition(randPosition(), -50);
 	}
 	
-	
+	public void draw(GraphicsContext gc) {
+		if (this.getYPosition() >= HEIGHT) {
+			this.returnUp();
+		}
+		
+		movingDown();
+		
+		super.draw(gc);
+	}
 }
