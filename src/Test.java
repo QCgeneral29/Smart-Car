@@ -41,9 +41,9 @@ public class Test extends Application{
         Sprite road1 = new Sprite("images/backgrounds/road.png", 0, -HEIGHT);
         Sprite road2 = new Sprite("images/backgrounds/road.png", 0, 0);
         
-        Prop prop1 = new Prop("/images/cars/blue_car.png", true, 2);
-        Prop prop2 = new Prop("/images/cars/blue_car.png", true, 3);
-        Prop prop3 = new Prop("/images/cars/blue_car.png", true, 4);
+        Prop prop1 = new Prop("/images/cars/blue_car.png", 2, 600);
+        Prop prop2 = new Prop("/images/cars/blue_car.png", 3, 600);
+        Prop prop3 = new Prop("/images/cars/blue_car.png", 4, 600);
         
 
         Enemy enemy = new Enemy("images/cars/grey_car.png", 600, 600, 1);
