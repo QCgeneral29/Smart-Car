@@ -33,6 +33,7 @@ public class Player extends Sprite{
 			this.movePlayer(xDirection, yDirection, this.speed / 2);
 		}
 		
+		// If player is hit recently, flash draw to show immortality
 		if(!(hitDelay + 1000 < System.currentTimeMillis())) {
 			if(dontDrawBuffer < 5) {
 				// Dont draw
@@ -47,6 +48,11 @@ public class Player extends Sprite{
 		}else {
 			// Draw car regularly
 			super.draw(gc);
+		}
+		
+		// If player drives off road, take 20 health
+		if(super.getXPosition() <= 75 || super.getXPosition() >= 417) {
+			attackPlayer(20);
 		}
 	}
 	

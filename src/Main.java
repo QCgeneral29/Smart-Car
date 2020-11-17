@@ -166,8 +166,9 @@ public class Main extends Application{
 		        		// Add to score
 		        		score++;
 		        		gc.setFont(new Font(30));
-		        		gc.fillText("Score: " + String.valueOf(score), 0, 500);
+		        		gc.fillText("Score: " + String.valueOf(score), 0, 500);	        		
 		        		
+		        		// If player health is 0, game ends
 		        		if(player.getHealth() <= 0) {
 		        			bg.draw(gc);
 		        			bg.draw(gc);
