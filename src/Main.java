@@ -18,8 +18,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.net.URL;
 
 public class Main extends Application{
 	
@@ -49,6 +52,17 @@ public class Main extends Application{
 		ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 		// This array list should be used for Sprites with collision.
 		ArrayList<Sprite> colliders = new ArrayList<Sprite>();
+		
+		// This is the driving sound we run indefinitely
+		URL drivingSource = getClass().getResource("sounds/driving.mp3");
+		AudioClip drivingSound = new AudioClip(drivingSource.toString());
+		drivingSound.setCycleCount(AudioClip.INDEFINITE);
+		drivingSound.play();
+		
+
+		URL stopSource = getClass().getResource("sounds/stop.mp3");
+		AudioClip stopSound = new AudioClip(stopSource.toString());
+		stopSound.setRate(1.0);
 		
 		// We use a Timeline to run the main gameLoop. We set it to run indefinitely 
 		Timeline gameLoop = new Timeline();
@@ -81,6 +95,10 @@ public class Main extends Application{
                     		}
                     	}
                     	
+                    	// check if Player's driving for sound
+                    	if (drivingSound.isPlaying() == false)
+                    		drivingSound.play();
+                    	
 		        		// Controls background loop
 		        		bg.draw(gc);
 		        		
@@ -98,6 +116,9 @@ public class Main extends Application{
 		        		}
 		        		if (input.isKeyPressed("S")) {
 		        			yDirection++;
+		        			drivingSound.stop();
+		        			if (stopSound.isPlaying() == false)
+		        				stopSound.play();
 		        		}
 		        		
 		        		// draw and move enemy
@@ -105,6 +126,7 @@ public class Main extends Application{
 		        		
 		        		// draw and move player
 		        		player.draw(gc, xDirection, yDirection);
+		        		
                     }
                 });
 

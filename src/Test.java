@@ -2,6 +2,7 @@
 // code can be used in the main game loop.
 
 // TODO clean up imports
+import java.net.URL;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -10,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class Test extends Application{
@@ -53,6 +55,11 @@ public class Test extends Application{
         props.add(prop1);
         props.add(prop2);
         props.add(prop3);
+        
+        URL drivingSource = getClass().getResource("sounds/driving.mp3");
+		AudioClip drivingSound = new AudioClip(drivingSource.toString());
+		drivingSound.setCycleCount(AudioClip.INDEFINITE);
+		drivingSound.play();
               
         new AnimationTimer() {
         	public void handle(long currentNanoTime) {
