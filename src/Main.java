@@ -19,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -28,6 +30,9 @@ public class Main extends Application{
 	
 	final private int WIDTH = 512;
 	final private int HEIGHT = 512;
+	
+	//Player score
+	long score = 0;
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -79,9 +84,11 @@ public class Main extends Application{
 		Prop prop1 = new Prop("images/cars/pink_car.png", 3, 600);
 		Prop prop2 = new Prop("images/cars/green_truck.png", 3, 800);
 		
-		// Add all sprites to array
+		// Add all sprites to arrays
 		sprites.add(prop1);
 		sprites.add(prop2);
+		colliders.add(prop1);
+		colliders.add(prop2);
 		
 		/**
 		 * This is the main game loop. Everything within handle() is called every frame.
@@ -101,6 +108,9 @@ public class Main extends Application{
                     					player.hack(3000);
                     					Enemy hacker = (Enemy) colliders.get(i);
                     					hacker.setRetreat(true);
+                    					break;
+                    				case "Prop":
+                    					player.attackPlayer(50);
                     					break;
                     			}
                     		}
@@ -145,6 +155,28 @@ public class Main extends Application{
 		        		// draw and move player
 		        		player.draw(gc, xDirection, yDirection);
 		        		
+		        		gc.setFont(new Font(50));
+		        		gc.setFill(Color.WHITE);
+		        		gc.fillText("Health: " + String.valueOf(player.getHealth()), 130, 50);
+		        		
+		        		// Add to score
+		        		score++;
+		        		gc.setFont(new Font(30));
+		        		gc.fillText("Score: " + String.valueOf(score), 0, 500);
+		        		
+		        		if(player.getHealth() <= 0) {
+		        			bg.draw(gc);
+		        			bg.draw(gc);
+		        			
+		        			gc.setFont(new Font(70));
+			        		gc.setFill(Color.RED);
+		        			gc.fillText("GAME OVER!!!", 40, 200);
+		        			
+		        			gc.setFont(new Font(40));
+			        		gc.setFill(Color.WHITE);
+			        		gc.fillText("Score: " + String.valueOf(score), 40, 260);
+		        			gameLoop.stop();
+		        		}
                     }
                 });
 

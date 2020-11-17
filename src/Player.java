@@ -5,6 +5,7 @@ public class Player extends Sprite{
 	private int speed = 3;
 	private long hitDelay = 0;
 	private long hackPenalty = 0;
+	private int dontDrawBuffer = 0;
 	
 	public Player(String img, int xpos, int ypos) {
 		super(img, xpos, ypos);
@@ -31,7 +32,22 @@ public class Player extends Sprite{
 			}
 			this.movePlayer(xDirection, yDirection, this.speed / 2);
 		}
-		this.draw(gc);
+		
+		if(!(hitDelay + 1000 < System.currentTimeMillis())) {
+			if(dontDrawBuffer < 5) {
+				// Dont draw
+				dontDrawBuffer++;
+			}else if(dontDrawBuffer < 10){
+				// Draw
+				super.draw(gc);
+				dontDrawBuffer++;
+			}else {
+				dontDrawBuffer = 0;
+			}
+		}else {
+			// Draw car regularly
+			super.draw(gc);
+		}
 	}
 	
 	public void setHealth(int health) {
@@ -57,9 +73,21 @@ public class Player extends Sprite{
 	 * There is a 3 second grace period after the hack.
 	 */
 	public void hack(long hackTime) {
-		// There is a 3 second delay between hacks
-		if(hackPenalty + 3000 < System.currentTimeMillis()) {
-			hackPenalty = System.currentTimeMillis() + hackTime;
+		// There is a 2 second delay between hacks
+		if(hackPenalty + 2000 < System.currentTimeMillis()) {
+			hackPenalty = System.currentTimeMillis() + 2000;
+		}
+	}
+	
+	/**
+	 * Check if the player has been attacked recently. If not, take away health.
+	 * @param damage Ammount that will be taken away from player health.
+	 */
+	public void attackPlayer(int damage) {
+		// Player cannot take damage for 1 second
+		if(hitDelay + 1000 < System.currentTimeMillis()) {
+			setHealth(getHealth() - damage);
+			hitDelay = System.currentTimeMillis() + 1000;
 		}
 	}
 	
