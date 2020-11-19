@@ -95,6 +95,7 @@ public class Main extends Application{
 		sprites.add(prop3);
 		colliders.add(prop1);
 		colliders.add(prop2);
+		colliders.add(prop3);
 		
 		/**
 		 * This is the main game loop. Everything within handle() is called every frame.
