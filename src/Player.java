@@ -40,7 +40,7 @@ public class Player extends Sprite{
 		// If player is hit recently, flash draw to show immortality
 		if(!(hitDelay + 1000 < System.currentTimeMillis())) {
 			if(dontDrawBuffer < 5) {
-				// Dont draw
+				// Don't draw
 				dontDrawBuffer++;
 			}else if(dontDrawBuffer < 10){
 				// Draw
@@ -91,7 +91,7 @@ public class Player extends Sprite{
 	
 	/**
 	 * Check if the player has been attacked recently. If not, take away health.
-	 * @param damage Ammount that will be taken away from player health.
+	 * @param damage Amount that will be taken away from player health.
 	 */
 	public void attackPlayer(int damage) {
 		// Player cannot take damage for 1 second
