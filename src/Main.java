@@ -3,7 +3,9 @@
  *  Made by Landen Love, Mike Bui, Jay Nguyen
  *  
  *  You need this VM argument to run the project:
- *  --module-path "C:\Program Files\javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.media,javafx.base,javafx.graphics,javafx.swing
+ *  --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls,javafx.media,javafx.base,javafx.graphics,javafx.swing
+ *  
+ *  Make sure you use the correct sdk files for your platform.
  */
 
 import java.util.ArrayList;
