@@ -6,10 +6,13 @@ public class Player extends Sprite{
 	private long hitDelay = 0;
 	private long hackPenalty = 0;
 	private int dontDrawBuffer = 0;
+	private int xStartPos = 0;
+	private int yStartPos = 0;
 	
 	public Player(String img, int xpos, int ypos) {
 		super(img, xpos, ypos);
-		// TODO Auto-generated constructor stub
+		this.xStartPos = xpos;
+		this.yStartPos = ypos;
 	}
 	
 	/**
@@ -104,12 +107,20 @@ public class Player extends Sprite{
 	 * @param speed The Speed at which the player will move.
 	 */
 	private void movePlayer(byte xDirection, byte yDirection, int speed) {
-		if(this.getXPosition() >= (512 - this.getImage().getWidth()) && xDirection == 1) xDirection = 0;
-		if(this.getXPosition() <= 0 && xDirection == -1) xDirection = 0;
-		if(this.getYPosition() >= (512 - this.getImage().getHeight()) && yDirection == 1) yDirection = 0;
-		if(this.getYPosition() <= 0 && yDirection == -1) yDirection = 0;
+		if(super.getXPosition() >= (512 - super.getImage().getWidth()) && xDirection == 1) xDirection = 0;
+		if(super.getXPosition() <= 0 && xDirection == -1) xDirection = 0;
+		if(super.getYPosition() >= (512 - super.getImage().getHeight()) && yDirection == 1) yDirection = 0;
+		if(super.getYPosition() <= 0 && yDirection == -1) yDirection = 0;
 
-		this.setPosition(this.getXPosition() + (xDirection * speed), 
+		super.setPosition(this.getXPosition() + (xDirection * speed), 
 						 this.getYPosition() + (yDirection * speed));
+	}
+	
+	@Override
+	public void reset() {
+		this.health = 100;
+		this.hackPenalty = 0;
+		this.hitDelay = 0;
+		super.setPosition(this.xStartPos, this.yStartPos);
 	}
 }

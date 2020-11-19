@@ -48,7 +48,7 @@ public class Test extends Application{
         Prop prop3 = new Prop("/images/cars/blue_car.png", 4, 600);
         
 
-        Enemy enemy = new Enemy("images/cars/grey_car.png", 600, 600, 1);
+        Enemy enemy = new Enemy("images/cars/grey_car.png", 600, 600, 1, HEIGHT);
         enemy.setRandomLocation();
 
         ArrayList<Prop> props = new ArrayList<Prop>();

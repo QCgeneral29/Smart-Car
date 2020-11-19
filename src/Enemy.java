@@ -5,10 +5,12 @@ import javafx.scene.canvas.GraphicsContext;
 public class Enemy extends Sprite{
 	private int speed;
 	private boolean retreat = false;
+	private final int HEIGHT;
 	
-	public Enemy(String img, int xpos, int ypos, int speed) {
+	public Enemy(String img, int xpos, int ypos, int speed, int HEIGHT) {
 		super(img, xpos, ypos);
 		this.speed = speed;
+		this.HEIGHT = HEIGHT;
 	}
 	
 	public static int randInt(int max, int min) {
@@ -21,7 +23,7 @@ public class Enemy extends Sprite{
 		if(retreat) {
 			super.setPosition(super.getXPosition(), super.getYPosition() + speed);
 			
-			if(super.getYPosition() > 512) {
+			if(super.getYPosition() > HEIGHT) {
 				setRetreat(false);
 				this.setRandomLocation();
 			}
@@ -58,4 +60,8 @@ public class Enemy extends Sprite{
 		this.retreat = retreat;
 	}
 
+	@Override
+	public void reset() {
+		super.setPosition(this.HEIGHT / 2, this.HEIGHT);
+	}
 }

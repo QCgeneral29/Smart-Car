@@ -74,4 +74,8 @@ public class Sprite {
 	public boolean intersects(Sprite object) {
 		return this.getBoundary().intersects(object.getBoundary());
 	}
+	
+	public void reset() {
+		// Nothing to reset for sprite. 
+	}
 }

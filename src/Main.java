@@ -10,7 +10,6 @@
 
 import java.util.ArrayList;
 
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -81,17 +80,19 @@ public class Main extends Application{
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		
 		// Enemy hacker car
-		Enemy enemycar = new Enemy("images/cars/hacker_car.png", -50, -50, 1);
+		Enemy enemycar = new Enemy("images/cars/hacker_car.png", -50, -50, 1, HEIGHT);
 		colliders.add(enemycar);
 		enemycar.setRandomLocation();
 		
 		// Prop cars
 		Prop prop1 = new Prop("images/cars/pink_car.png", 3, 600);
 		Prop prop2 = new Prop("images/cars/green_truck.png", 3, 800);
+		Prop prop3 = new Prop("images/cars/red_car.png", 3, 700);
 		
 		// Add all sprites to arrays
 		sprites.add(prop1);
 		sprites.add(prop2);
+		sprites.add(prop3);
 		colliders.add(prop1);
 		colliders.add(prop2);
 		
@@ -105,6 +106,35 @@ public class Main extends Application{
                 {
                     public void handle(ActionEvent ae)
                     {
+                    	// If player health is 0, game ends
+		        		if(player.getHealth() <= 0) {
+		        			bg.draw(gc);
+		        			bg.draw(gc);
+		        			bg.setSpeed(0);
+		        			
+		        			gc.setFont(new Font(70));
+			        		gc.setFill(Color.RED);
+		        			gc.fillText("GAME OVER!!!", 40, 200);
+		        			
+		        			gc.setFont(new Font(40));
+			        		gc.setFill(Color.WHITE);
+			        		gc.fillText("Score: " + String.valueOf(score), 40, 260);
+			        		gc.setFont(new Font(20));
+			        		gc.fillText("Press R to restart", 40, 300);
+		        			
+		        			if(input.isKeyPressed("R")) {
+		        				// Reset sprites
+			        			for(int i = 0; i < sprites.size(); i++) {
+			        				sprites.get(i).reset();
+			        			}
+			        			// Reset player, enemy, and score
+			        			enemycar.reset();
+			        			player.reset();
+			        			score = 0;
+			        			
+			        			bg.setSpeed(7);
+			        		}
+		        		}else {
                     	// Detect collision with player
                     	for(int i = 0; i < colliders.size(); i++) {
                     		if(player.intersects(colliders.get(i))) {
@@ -170,19 +200,6 @@ public class Main extends Application{
 		        		gc.setFont(new Font(30));
 		        		gc.fillText("Score: " + String.valueOf(score), 0, 500);	        		
 		        		
-		        		// If player health is 0, game ends
-		        		if(player.getHealth() <= 0) {
-		        			bg.draw(gc);
-		        			bg.draw(gc);
-		        			
-		        			gc.setFont(new Font(70));
-			        		gc.setFill(Color.RED);
-		        			gc.fillText("GAME OVER!!!", 40, 200);
-		        			
-		        			gc.setFont(new Font(40));
-			        		gc.setFill(Color.WHITE);
-			        		gc.fillText("Score: " + String.valueOf(score), 40, 260);
-		        			gameLoop.stop();
 		        		}
                     }
                 });

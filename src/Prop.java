@@ -36,4 +36,9 @@ public class Prop extends Sprite {
 		
 		super.draw(gc);
 	}
+	
+	@Override
+	public void reset() {
+		super.setPosition(Prop.randPosition(), -50);
+	}
 }
