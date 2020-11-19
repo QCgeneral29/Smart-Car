@@ -56,7 +56,7 @@ public class Test extends Application{
         props.add(prop2);
         props.add(prop3);
         
-        URL drivingSource = getClass().getResource("sounds/driving.mp3");
+        URL drivingSource = getClass().getResource("sounds/speed_up.mp3");
 		AudioClip drivingSound = new AudioClip(drivingSource.toString());
 		drivingSound.setCycleCount(AudioClip.INDEFINITE);
 		drivingSound.play();
