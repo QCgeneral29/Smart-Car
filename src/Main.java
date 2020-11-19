@@ -89,13 +89,18 @@ public class Main extends Application{
 		Prop prop2 = new Prop("images/cars/green_truck.png", 3, 800);
 		Prop prop3 = new Prop("images/cars/red_car.png", 3, 700);
 		
+		// Health pack
+		HealthPack healthPack = new HealthPack("images/healthpack/health_pack.png", 3, 1000);
+		
 		// Add all sprites to arrays
 		sprites.add(prop1);
 		sprites.add(prop2);
 		sprites.add(prop3);
+		sprites.add(healthPack);
 		colliders.add(prop1);
 		colliders.add(prop2);
 		colliders.add(prop3);
+		colliders.add(healthPack);
 		
 		/**
 		 * This is the main game loop. Everything within handle() is called every frame.
@@ -147,6 +152,9 @@ public class Main extends Application{
                     					break;
                     				case "Prop":
                     					player.attackPlayer(10);
+                    					break;
+                    				case "HealthPack":
+                    					player.gainHealth(20);
                     					break;
                     			}
                     		}

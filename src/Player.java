@@ -5,6 +5,7 @@ public class Player extends Sprite{
 	private int speed = 3;
 	private long hitDelay = 0;
 	private long hackPenalty = 0;
+	private long healthDelay = 0;
 	private int dontDrawBuffer = 0;
 	private int xStartPos = 0;
 	private int yStartPos = 0;
@@ -97,6 +98,14 @@ public class Player extends Sprite{
 		if(hitDelay + 1000 < System.currentTimeMillis()) {
 			setHealth(getHealth() - damage);
 			hitDelay = System.currentTimeMillis() + 1000;
+		}
+	}
+	
+	public void gainHealth(int health) {
+		// Player cannot get health pack for 2 second
+		if(healthDelay + 2000 < System.currentTimeMillis()) {
+			setHealth(getHealth() + health);
+			healthDelay = System.currentTimeMillis() + 2000;
 		}
 	}
 	
