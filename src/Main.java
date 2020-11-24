@@ -7,7 +7,6 @@
  */
 
 import java.util.ArrayList;
-
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,22 +17,70 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 
 public class Main extends Application{
 	
 	final private int WIDTH = 512;
 	final private int HEIGHT = 512;
+	private BorderPane layout;
+	private Scene scene1;
+	  
+	
 	
 	@Override
 	public void start(Stage stage) throws Exception {
+		layout = new BorderPane();
+		layout.setStyle("-fx-background-image: url('images/backgrounds/road.png')");
+		scene1 = new Scene (layout, WIDTH, HEIGHT);
+		stage.setResizable(false);
+		Button b = new Button("PLAY");
+		Button c = new Button("Instruction");
+		layout.setCenter(b);
+		layout.setBottom(c);
+		
+		BorderPane ins = new BorderPane();
+		ins.setStyle("-fx-background-image: url('images/backgrounds/road.png')");
+		Text t = new Text("This is a text sample \n"
+				+ " nothing important");
+		t.setFont(Font.font ("Verdana", 20));
+		t.setFill(Color.RED);
+		ins.setCenter(t);
+		Scene scene2 = new Scene (ins, WIDTH, HEIGHT);
+		Button back = new Button("Back");
+		ins.setBottom(back);
+		back.setOnAction(e -> {
+			stage.setScene(scene1);
+		});
+		
+		
+		stage.setScene(scene1);
+		stage.show();
+		
+		c.setOnAction(e -> {
+			stage.setScene(scene2);
+			
+		});
+		
+		
+		
+		
 		// Setup window and scene
 		stage.setTitle("Smart-Car");
         stage.setResizable(false);
         Group root = new Group();
         Scene scene = new Scene(root);
-        stage.setScene(scene);
+//        stage.setScene(scene);
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
         
@@ -107,11 +154,18 @@ public class Main extends Application{
 		        		player.draw(gc, xDirection, yDirection);
                     }
                 });
-
-        gameLoop.getKeyFrames().add(kf);
-        gameLoop.play();
         
-        stage.show();
+        gameLoop.getKeyFrames().add(kf);
+//        gameLoop.play();
+        
+        
+        b.setOnAction (e -> {
+			stage.setScene(scene);
+			gameLoop.play();
+		});
+
+     
+//        stage.show();
 	}
 	
 	public static void main(String[] args) {
