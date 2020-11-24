@@ -46,6 +46,9 @@ public class Main extends Application{
 	public void start(Stage stage) throws Exception {
 		layout = new BorderPane();
 		layout.setStyle("-fx-background-image: url('images/backgrounds/road.png')");
+		URL menuSource = getClass().getResource("sounds/menu.mp3");
+		AudioClip menuSound = new AudioClip(menuSource.toString());
+		menuSound.play();
 		scene1 = new Scene (layout, WIDTH, HEIGHT);
 		stage.setResizable(false);
 		Button b = new Button("PLAY");
@@ -107,7 +110,7 @@ public class Main extends Application{
 		URL playingSource = getClass().getResource("sounds/playing.mp3");
 		AudioClip playingSound = new AudioClip(playingSource.toString());
 		playingSound.setCycleCount(AudioClip.INDEFINITE);
-		playingSound.play();
+		//playingSound.play();
 		
 		// This sound is for speeding up (pressing "W")
 		URL speedingSource = getClass().getResource("sounds/speed_up.mp3");
@@ -268,6 +271,8 @@ public class Main extends Application{
         b.setOnAction (e -> {
 			stage.setScene(scene);
 			gameLoop.play();
+			menuSound.stop();
+			playingSound.play();
 		});
 
      
