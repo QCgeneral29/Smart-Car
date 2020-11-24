@@ -67,12 +67,19 @@ public class Main extends Application{
 		playingSound.setCycleCount(AudioClip.INDEFINITE);
 		playingSound.play();
 		
+		// This sound is for speeding up (pressing "W")
 		URL speedingSource = getClass().getResource("sounds/speed_up.mp3");
 		AudioClip speedingSound = new AudioClip(speedingSource.toString());
 		speedingSound.setRate(1.0);
 		
+		// This sound is for slowing down (pressing "S")
 		URL stopSource = getClass().getResource("sounds/stop.mp3");
 		AudioClip stopSound = new AudioClip(stopSource.toString());
+		stopSound.setRate(1.0);
+		
+		// This sound is for when the car crash with a prop
+		URL crashSource = getClass().getResource("sounds/crash.mp3");
+		AudioClip crashSound = new AudioClip(crashSource.toString());
 		stopSound.setRate(1.0);
 		
 		// We use a Timeline to run the main gameLoop. We set it to run indefinitely 
@@ -152,6 +159,8 @@ public class Main extends Application{
                     					break;
                     				case "Prop":
                     					player.attackPlayer(10);
+                    					if (!crashSound.isPlaying())
+            		        				crashSound.play();
                     					break;
                     				case "HealthPack":
                     					player.gainHealth(20);

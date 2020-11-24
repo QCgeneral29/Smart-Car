@@ -101,11 +101,14 @@ public class Player extends Sprite{
 		}
 	}
 	
-	public void gainHealth(int health) {
+	public void gainHealth(int extraHealth) {
 		// Player cannot get health pack for 2 second
 		if(healthDelay + 2000 < System.currentTimeMillis()) {
-			setHealth(getHealth() + health);
 			healthDelay = System.currentTimeMillis() + 2000;
+			if (getHealth() <= 80)
+				setHealth(getHealth() + extraHealth);
+			else
+				setHealth(health);
 		}
 	}
 	
