@@ -2,6 +2,7 @@
 // code can be used in the main game loop.
 
 // TODO clean up imports
+import java.net.URL;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -10,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 
 public class Test extends Application{
@@ -41,18 +43,23 @@ public class Test extends Application{
         Sprite road1 = new Sprite("images/backgrounds/road.png", 0, -HEIGHT);
         Sprite road2 = new Sprite("images/backgrounds/road.png", 0, 0);
         
-        Prop prop1 = new Prop("/images/cars/blue_car.png", true, 2);
-        Prop prop2 = new Prop("/images/cars/blue_car.png", true, 3);
-        Prop prop3 = new Prop("/images/cars/blue_car.png", true, 4);
+        Prop prop1 = new Prop("/images/cars/blue_car.png", 2, 600);
+        Prop prop2 = new Prop("/images/cars/blue_car.png", 3, 600);
+        Prop prop3 = new Prop("/images/cars/blue_car.png", 4, 600);
         
 
-        Enemy enemy = new Enemy("images/cars/grey_car.png", 600, 600, 1);
+        Enemy enemy = new Enemy("images/cars/grey_car.png", 600, 600, 1, HEIGHT);
         enemy.setRandomLocation();
 
         ArrayList<Prop> props = new ArrayList<Prop>();
         props.add(prop1);
         props.add(prop2);
         props.add(prop3);
+        
+        URL drivingSource = getClass().getResource("sounds/speed_up.mp3");
+		AudioClip drivingSound = new AudioClip(drivingSource.toString());
+		drivingSound.setCycleCount(AudioClip.INDEFINITE);
+		drivingSound.play();
               
         new AnimationTimer() {
         	public void handle(long currentNanoTime) {

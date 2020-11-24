@@ -5,10 +5,15 @@ public class Player extends Sprite{
 	private int speed = 3;
 	private long hitDelay = 0;
 	private long hackPenalty = 0;
+	private long healthDelay = 0;
+	private int dontDrawBuffer = 0;
+	private int xStartPos = 0;
+	private int yStartPos = 0;
 	
 	public Player(String img, int xpos, int ypos) {
 		super(img, xpos, ypos);
-		// TODO Auto-generated constructor stub
+		this.xStartPos = xpos;
+		this.yStartPos = ypos;
 	}
 	
 	/**
@@ -31,7 +36,28 @@ public class Player extends Sprite{
 			}
 			this.movePlayer(xDirection, yDirection, this.speed / 2);
 		}
-		this.draw(gc);
+		
+		// If player is hit recently, flash draw to show immortality
+		if(!(hitDelay + 1000 < System.currentTimeMillis())) {
+			if(dontDrawBuffer < 5) {
+				// Don't draw
+				dontDrawBuffer++;
+			}else if(dontDrawBuffer < 10){
+				// Draw
+				super.draw(gc);
+				dontDrawBuffer++;
+			}else {
+				dontDrawBuffer = 0;
+			}
+		}else {
+			// Draw car regularly
+			super.draw(gc);
+		}
+		
+		// If player drives off road, take 20 health
+		if(super.getXPosition() <= 75 || super.getXPosition() >= 417) {
+			attackPlayer(20);
+		}
 	}
 	
 	public void setHealth(int health) {
@@ -57,9 +83,29 @@ public class Player extends Sprite{
 	 * There is a 3 second grace period after the hack.
 	 */
 	public void hack(long hackTime) {
-		// There is a 3 second delay between hacks
-		if(hackPenalty + 3000 < System.currentTimeMillis()) {
-			hackPenalty = System.currentTimeMillis() + hackTime;
+		// There is a 2 second delay between hacks
+		if(hackPenalty + 2000 < System.currentTimeMillis()) {
+			hackPenalty = System.currentTimeMillis() + 2000;
+		}
+	}
+	
+	/**
+	 * Check if the player has been attacked recently. If not, take away health.
+	 * @param damage Amount that will be taken away from player health.
+	 */
+	public void attackPlayer(int damage) {
+		// Player cannot take damage for 1 second
+		if(hitDelay + 1000 < System.currentTimeMillis()) {
+			setHealth(getHealth() - damage);
+			hitDelay = System.currentTimeMillis() + 1000;
+		}
+	}
+	
+	public void gainHealth(int health) {
+		// Player cannot get health pack for 2 second
+		if(healthDelay + 2000 < System.currentTimeMillis()) {
+			setHealth(getHealth() + health);
+			healthDelay = System.currentTimeMillis() + 2000;
 		}
 	}
 	
@@ -70,12 +116,20 @@ public class Player extends Sprite{
 	 * @param speed The Speed at which the player will move.
 	 */
 	private void movePlayer(byte xDirection, byte yDirection, int speed) {
-		if(this.getXPosition() >= (512 - this.getImage().getWidth()) && xDirection == 1) xDirection = 0;
-		if(this.getXPosition() <= 0 && xDirection == -1) xDirection = 0;
-		if(this.getYPosition() >= (512 - this.getImage().getHeight()) && yDirection == 1) yDirection = 0;
-		if(this.getYPosition() <= 0 && yDirection == -1) yDirection = 0;
+		if(super.getXPosition() >= (512 - super.getImage().getWidth()) && xDirection == 1) xDirection = 0;
+		if(super.getXPosition() <= 0 && xDirection == -1) xDirection = 0;
+		if(super.getYPosition() >= (512 - super.getImage().getHeight()) && yDirection == 1) yDirection = 0;
+		if(super.getYPosition() <= 0 && yDirection == -1) yDirection = 0;
 
-		this.setPosition(this.getXPosition() + (xDirection * speed), 
+		super.setPosition(this.getXPosition() + (xDirection * speed), 
 						 this.getYPosition() + (yDirection * speed));
+	}
+	
+	@Override
+	public void reset() {
+		this.health = 100;
+		this.hackPenalty = 0;
+		this.hitDelay = 0;
+		super.setPosition(this.xStartPos, this.yStartPos);
 	}
 }

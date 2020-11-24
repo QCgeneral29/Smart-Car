@@ -2,12 +2,13 @@
  *  
  *  Made by Landen Love, Mike Bui, Jay Nguyen
  *  
- *  Might need VM argument:
- *  --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls
+ *  You need this VM argument to run the project:
+ *  --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls,javafx.media,javafx.base,javafx.graphics,javafx.swing
+ *  
+ *  Make sure you use the correct sdk files for your platform.
  */
 
 import java.util.ArrayList;
-import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -18,16 +19,16 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
+
+import java.net.URL;
 
 public class Main extends Application{
 	
@@ -37,6 +38,9 @@ public class Main extends Application{
 	private Scene scene1;
 	  
 	
+	
+	//Player score
+	long score = 0;
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -87,23 +91,58 @@ public class Main extends Application{
         // This is passed to everything we want to draw on screen ex: draw(ex)
         GraphicsContext gc = canvas.getGraphicsContext2D();
                 
-		Background bg = new Background("images/backgrounds/road.png", 5, HEIGHT);
+        // Setup the looping background
+		Background bg = new Background("images/backgrounds/road.png", 7, HEIGHT);
 		
+		// Player input and player character
 		InputHandler input = new InputHandler(scene);
-		Player player = new Player("images/cars/pink_car.png",  WIDTH / 2, HEIGHT / 2);
+		Player player = new Player("images/cars/blue_car.png",  WIDTH / 2, HEIGHT / 2);
 		
 		// This array list should be used for adding new sprites to the scene. 
 		ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 		// This array list should be used for Sprites with collision.
 		ArrayList<Sprite> colliders = new ArrayList<Sprite>();
 		
+		// This is the driving sound we run indefinitely
+		URL playingSource = getClass().getResource("sounds/playing.mp3");
+		AudioClip playingSound = new AudioClip(playingSource.toString());
+		playingSound.setCycleCount(AudioClip.INDEFINITE);
+		playingSound.play();
+		
+		URL speedingSource = getClass().getResource("sounds/speed_up.mp3");
+		AudioClip speedingSound = new AudioClip(speedingSource.toString());
+		speedingSound.setRate(1.0);
+		
+		URL stopSource = getClass().getResource("sounds/stop.mp3");
+		AudioClip stopSound = new AudioClip(stopSource.toString());
+		stopSound.setRate(1.0);
+		
 		// We use a Timeline to run the main gameLoop. We set it to run indefinitely 
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		
-		Enemy enemycar = new Enemy("images/cars/blue_car.png", -50, -50, 1);
+		// Enemy hacker car
+		Enemy enemycar = new Enemy("images/cars/hacker_car.png", -50, -50, 1, HEIGHT);
 		colliders.add(enemycar);
 		enemycar.setRandomLocation();
+		
+		// Prop cars
+		Prop prop1 = new Prop("images/cars/pink_car.png", 3, 600);
+		Prop prop2 = new Prop("images/cars/green_truck.png", 3, 800);
+		Prop prop3 = new Prop("images/cars/red_car.png", 3, 700);
+		
+		// Health pack
+		HealthPack healthPack = new HealthPack("images/healthpack/health_pack.png", 3, 1000);
+		
+		// Add all sprites to arrays
+		sprites.add(prop1);
+		sprites.add(prop2);
+		sprites.add(prop3);
+		sprites.add(healthPack);
+		colliders.add(prop1);
+		colliders.add(prop2);
+		colliders.add(prop3);
+		colliders.add(healthPack);
 		
 		/**
 		 * This is the main game loop. Everything within handle() is called every frame.
@@ -115,6 +154,35 @@ public class Main extends Application{
                 {
                     public void handle(ActionEvent ae)
                     {
+                    	// If player health is 0, game ends
+		        		if(player.getHealth() <= 0) {
+		        			bg.draw(gc);
+		        			bg.draw(gc);
+		        			bg.setSpeed(0);
+		        			
+		        			gc.setFont(new Font(70));
+			        		gc.setFill(Color.RED);
+		        			gc.fillText("GAME OVER!!!", 40, 200);
+		        			
+		        			gc.setFont(new Font(40));
+			        		gc.setFill(Color.WHITE);
+			        		gc.fillText("Score: " + String.valueOf(score), 40, 260);
+			        		gc.setFont(new Font(20));
+			        		gc.fillText("Press R to restart", 40, 300);
+		        			
+		        			if(input.isKeyPressed("R")) {
+		        				// Reset sprites
+			        			for(int i = 0; i < sprites.size(); i++) {
+			        				sprites.get(i).reset();
+			        			}
+			        			// Reset player, enemy, and score
+			        			enemycar.reset();
+			        			player.reset();
+			        			score = 0;
+			        			
+			        			bg.setSpeed(7);
+			        		}
+		        		}else {
                     	// Detect collision with player
                     	for(int i = 0; i < colliders.size(); i++) {
                     		if(player.intersects(colliders.get(i))) {
@@ -124,12 +192,29 @@ public class Main extends Application{
                     					Enemy hacker = (Enemy) colliders.get(i);
                     					hacker.setRetreat(true);
                     					break;
+                    				case "Prop":
+                    					player.attackPlayer(10);
+                    					break;
+                    				case "HealthPack":
+                    					player.gainHealth(20);
+                    					break;
                     			}
                     		}
                     	}
                     	
+                    	// check if Player is driving for sound
+                    	if (!playingSound.isPlaying())
+                    		playingSound.play();
+                    	
 		        		// Controls background loop
+                    	// DO NOT DRAW ANY IMAGES ABOVE THE BACKGROUND. THEY WILL NOT
+                    	// SHOW UP ON SCREEN
 		        		bg.draw(gc);
+		        		
+		        		// Draw all sprites.
+		        		for(int i = 0; i < sprites.size(); i++) {
+                    		sprites.get(i).draw(gc);
+                    	}
 		        		
 		        		// Player controls
 		        		byte xDirection = 0, yDirection = 0;
@@ -142,9 +227,13 @@ public class Main extends Application{
 		        		
 		        		if(input.isKeyPressed("W")) {
 		        			yDirection--;
+		        			if (!speedingSound.isPlaying())
+		        				speedingSound.play();
 		        		}
 		        		if (input.isKeyPressed("S")) {
 		        			yDirection++;
+		        			if (!stopSound.isPlaying())
+		        				stopSound.play();
 		        		}
 		        		
 		        		// draw and move enemy
@@ -152,6 +241,17 @@ public class Main extends Application{
 		        		
 		        		// draw and move player
 		        		player.draw(gc, xDirection, yDirection);
+		        		
+		        		gc.setFont(new Font(50));
+		        		gc.setFill(Color.WHITE);
+		        		gc.fillText("Health: " + String.valueOf(player.getHealth()), 130, 50);
+		        		
+		        		// Add to score
+		        		score++;
+		        		gc.setFont(new Font(30));
+		        		gc.fillText("Score: " + String.valueOf(score), 0, 500);	        		
+		        		
+		        		}
                     }
                 });
         
@@ -165,7 +265,7 @@ public class Main extends Application{
 		});
 
      
-//        stage.show();
+
 	}
 	
 	public static void main(String[] args) {
