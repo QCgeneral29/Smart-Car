@@ -117,7 +117,7 @@ public class Player extends Sprite{
 			if (getHealth() <= 80)
 				setHealth(getHealth() + extraHealth);
 			else
-				setHealth(health);
+				setHealth(100);
 		}
 	}
 	
