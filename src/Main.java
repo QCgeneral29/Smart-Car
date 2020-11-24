@@ -122,7 +122,6 @@ public class Main extends Application{
 		// This sound is for when the car crash with a prop
 		URL crashSource = getClass().getResource("sounds/crash.mp3");
 		AudioClip crashSound = new AudioClip(crashSource.toString());
-		stopSound.setRate(1.0);
 		
 		// We use a Timeline to run the main gameLoop. We set it to run indefinitely 
 		Timeline gameLoop = new Timeline();
@@ -201,8 +200,6 @@ public class Main extends Application{
                     					break;
                     				case "Prop":
                     					player.attackPlayer(10);
-                    					if (!crashSound.isPlaying())
-            		        				crashSound.play();
                     					break;
                     				case "HealthPack":
                     					player.gainHealth(20);

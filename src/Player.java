@@ -1,4 +1,7 @@
+import java.net.URL;
+
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.media.AudioClip;
 
 public class Player extends Sprite{
 	private int health = 100;
@@ -9,6 +12,10 @@ public class Player extends Sprite{
 	private int dontDrawBuffer = 0;
 	private int xStartPos = 0;
 	private int yStartPos = 0;
+	
+	// This sound is for when the car crash with a prop
+	URL crashSource = getClass().getResource("sounds/crash.mp3");
+	AudioClip crashSound = new AudioClip(crashSource.toString());
 	
 	public Player(String img, int xpos, int ypos) {
 		super(img, xpos, ypos);
@@ -98,6 +105,8 @@ public class Player extends Sprite{
 		if(hitDelay + 1000 < System.currentTimeMillis()) {
 			setHealth(getHealth() - damage);
 			hitDelay = System.currentTimeMillis() + 1000;
+			
+			crashSound.play();
 		}
 	}
 	
