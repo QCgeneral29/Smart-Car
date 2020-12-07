@@ -6,7 +6,7 @@ public class Sprite {
 	private Image image;
 	private int xpos = 0;
 	private int ypos = 0;
-	private Boolean isVisable = true;
+	private Boolean isVisible = true;
 	
 	/**
 	 * General purpose class used to draw images in Smart-Car. Includes helper methods for manipulating
@@ -26,7 +26,7 @@ public class Sprite {
 	 * @param gc
 	 */
 	public void draw(GraphicsContext gc) {
-		gc.drawImage(image, xpos, ypos);
+		if(isVisible) gc.drawImage(image, xpos, ypos);
 	}
 	
 	public void setPosition(int xpos, int ypos) {
@@ -42,12 +42,12 @@ public class Sprite {
 		return this.ypos;
 	}
 	
-	public void setVisible(Boolean isVisable) {
-		this.isVisable = isVisable;
+	public void setVisible(Boolean isVisible) {
+		this.isVisible = isVisible;
 	}
 	
 	public Boolean isVisible() {
-		return this.isVisable;
+		return this.isVisible;
 	}
 	
 	/**

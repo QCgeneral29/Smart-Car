@@ -201,6 +201,7 @@ public class Main extends Application{
                     					player.attackPlayer(10);
                     					break;
                     				case "HealthPack":
+                    					colliders.get(i).setVisible(false);
                     					player.gainHealth(20);
                     					break;
                     			}
