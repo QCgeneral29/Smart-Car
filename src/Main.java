@@ -25,6 +25,7 @@ import javafx.util.Duration;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 
@@ -45,7 +46,7 @@ public class Main extends Application{
 	@Override
 	public void start(Stage stage) throws Exception {
 		layout = new BorderPane();
-		layout.setStyle("-fx-background-image: url('images/backgrounds/road.png')");
+		layout.setStyle("-fx-background-image: url('images/backgrounds/smartidea.jpg')");
 		URL menuSource = getClass().getResource("sounds/menu.mp3");
 		AudioClip menuSound = new AudioClip(menuSource.toString());
 		menuSound.play();
@@ -55,13 +56,20 @@ public class Main extends Application{
 		Button c = new Button("Instruction");
 		layout.setCenter(b);
 		layout.setBottom(c);
+				
 		
 		BorderPane ins = new BorderPane();
-		ins.setStyle("-fx-background-image: url('images/backgrounds/road.png')");
-		Text t = new Text("This is a text sample \n"
-				+ " nothing important");
-		t.setFont(Font.font ("Verdana", 20));
-		t.setFill(Color.RED);
+		ins.setStyle("-fx-background-image: url('images/backgrounds/smarti.png')");
+		Text t = new Text("		   This is THE RULEE!!!!! \n"
+				+ " 	GOAL: TO GET THE HIGHEST SCORE \n"
+				+ "1. Control car with WASD \n"
+				+ "2. Hit other cars does 10 damage \n"
+				+ "3. Hitting the side of the road does 20 damage \n"
+				+ "4. When hacked, your car tries to drive off the \n"
+				+ "road \n"
+				+ "5. Picking up the health pack gives 20 health.");
+		t.setFont(Font.font ("Verdana", FontWeight.BOLD, 17));
+		t.setFill(Color.ORANGE);
 		ins.setCenter(t);
 		Scene scene2 = new Scene (ins, WIDTH, HEIGHT);
 		Button back = new Button("Back");
