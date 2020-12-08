@@ -130,10 +130,6 @@ public class Main extends Application{
 		AudioClip stopSound = new AudioClip(stopSource.toString());
 		stopSound.setRate(1.0);
 		
-		// This sound is for when the car crash with a prop
-		URL crashSource = getClass().getResource("sounds/crash.mp3");
-		AudioClip crashSound = new AudioClip(crashSource.toString());
-		
 		// We use a Timeline to run the main gameLoop. We set it to run indefinitely 
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -213,6 +209,7 @@ public class Main extends Application{
                     					player.attackPlayer(10);
                     					break;
                     				case "HealthPack":
+                    					colliders.get(i).setVisible(false);
                     					player.gainHealth(20);
                     					break;
                     			}

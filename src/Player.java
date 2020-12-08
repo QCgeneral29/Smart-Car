@@ -17,6 +17,14 @@ public class Player extends Sprite{
 	URL crashSource = getClass().getResource("sounds/crash.mp3");
 	AudioClip crashSound = new AudioClip(crashSource.toString());
 	
+	// This sound is for when the car is hacked (crash with an enemy car)
+	URL hackSource = getClass().getResource("sounds/hack.mp3");
+	AudioClip hackSound = new AudioClip(hackSource.toString());
+	
+	// This sound is for when the car is hacked (crash with an enemy car)
+	URL healthSource = getClass().getResource("sounds/health.mp3");
+	AudioClip healthSound = new AudioClip(healthSource.toString());
+	
 	public Player(String img, int xpos, int ypos) {
 		super(img, xpos, ypos);
 		this.xStartPos = xpos;
@@ -93,6 +101,8 @@ public class Player extends Sprite{
 		// There is a 2 second delay between hacks
 		if(hackPenalty + 2000 < System.currentTimeMillis()) {
 			hackPenalty = System.currentTimeMillis() + 2000;
+			
+			hackSound.play();
 		}
 	}
 	
@@ -118,6 +128,8 @@ public class Player extends Sprite{
 				setHealth(getHealth() + extraHealth);
 			else
 				setHealth(100);
+			
+			healthSound.play();
 		}
 	}
 	

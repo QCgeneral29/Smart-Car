@@ -25,6 +25,7 @@ public class Prop extends Sprite {
 	
 	public void returnUp() {
 		super.setPosition(randPosition(), -50);
+		super.setVisible(true);
 	}
 	
 	public void draw(GraphicsContext gc) {
