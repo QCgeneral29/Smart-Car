@@ -130,6 +130,10 @@ public class Main extends Application{
 		AudioClip stopSound = new AudioClip(stopSource.toString());
 		stopSound.setRate(1.0);
 		
+		// This sound is for when the game is over
+		URL gameOverSource = getClass().getResource("sounds/game_over.mp3");
+		AudioClip gameOverSound = new AudioClip(gameOverSource.toString()); 
+		
 		// We use a Timeline to run the main gameLoop. We set it to run indefinitely 
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -182,6 +186,11 @@ public class Main extends Application{
 			        		gc.fillText("Score: " + String.valueOf(score), 40, 260);
 			        		gc.setFont(new Font(20));
 			        		gc.fillText("Press R to restart", 40, 300);
+			        		
+			        		playingSound.stop();
+			        		if (!gameOverSound.isPlaying())
+			        			gameOverSound.play();
+			        		
 		        			
 		        			if(input.isKeyPressed("R")) {
 		        				// Reset sprites
@@ -194,6 +203,9 @@ public class Main extends Application{
 			        			score = 0;
 			        			
 			        			bg.setSpeed(7);
+			        			
+			        			// Stop game over sound
+			        			gameOverSound.stop();
 			        		}
 		        		}else {
                     	// Detect collision with player
